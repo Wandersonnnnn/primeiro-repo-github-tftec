@@ -1,5 +1,6 @@
 // Código com vulnerabilidades intencionais para demonstração
 const express = require('express');
+const escapeHtml = require('escape-html');
 const app = express();
 
 // Vulnerabilidade: SQL Injection
@@ -11,6 +12,6 @@ app.get('/user', (req, res) => {
 
 // Vulnerabilidade: XSS
 app.get('/hello', (req, res) => {
-    res.send("<h1>Hello " + req.query.name + "</h1>");
+    res.send("<h1>Hello " + escapeHtml(req.query.name ?? '') + "</h1>");
     // CodeQL vai detectar: "Cross-site scripting vulnerability"
 });
